@@ -22,7 +22,12 @@ environment:
 
 dependencies:
   flutter:
-    sdk: flutter
+    sdk: flutter  
+  firebase_auth: ^0.14.0+5
+  firebase_database: ^3.0.7
+  firebase_core: ^0.4.0+9
+  firebase_analytics: ^5.0.2
+  cloud_firestore: ^0.12.9+5
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -45,6 +50,8 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/logosample.png
+    - assets/images/flutter-icon.png
+    - assets/piggy-bank.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
