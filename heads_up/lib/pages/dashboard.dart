@@ -1,12 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:heads_up/services/authentication.dart';
+import 'dart:async';
+import 'package:firebase_database/firebase_database.dart';
 
 class Dashboard extends StatefulWidget {
+  Dashboard({Key key, this.auth, this.userId, this.logoutCallback})
+      : super(key: key);
+
+  final BaseAuth auth;
+  final VoidCallback logoutCallback;
+  final String userId;
+
   @override
   _DashboardState createState() => _DashboardState();
 }
 
 class _DashboardState extends State<Dashboard> {
+  final FirebaseDatabase _database = FirebaseDatabase.instance;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    //_checkEmailVerification();
+  }
+
   Material myItems(IconData icon, String heading, int color) {
     return Material(
       color: Colors.white,
@@ -58,11 +78,29 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 
+  signOut() async {
+    try {
+      await widget.auth.signOut();
+      widget.logoutCallback();
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: Text('Dashboard', style: TextStyle(color: Colors.white))),
+          title: Text('Dashboard', style: TextStyle(color: Colors.white)),
+          actions: <Widget>[
+            new FlatButton(
+                onPressed: signOut,
+                child: new Text(
+                  'Logout',
+                  style: new TextStyle(fontSize: 17.0, color: Colors.white),
+                ))
+          ],
+        ),
         body: StaggeredGridView.count(
           crossAxisCount: 2, //number of columns
           crossAxisSpacing: 12.0, //spacing between columns)
