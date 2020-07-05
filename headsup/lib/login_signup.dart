@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:headsup/homepage.dart';
+import 'package:headsup/dashboard_manager.dart';
 import 'package:headsup/dashboard_worker.dart';
 
 import 'dashboard_worker.dart';
