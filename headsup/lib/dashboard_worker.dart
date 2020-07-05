@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:headsup/login_signup.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:async';
 //import 'dart:async';
 
 class Dashboard extends StatefulWidget {
@@ -88,6 +91,30 @@ class _DashboardState extends State<Dashboard> {
     }
   }
 */
+
+  _logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+    return Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SignInPage(),
+        ));
+  }
+
+  String _user;
+  @override
+  void initState() {
+    super.initState();
+    _getUser();
+  }
+
+  void _getUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _user = prefs.getString('user');
+    print(prefs.getString('user'));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,11 +122,13 @@ class _DashboardState extends State<Dashboard> {
           title: Text('Dashboard', style: TextStyle(color: Colors.white)),
           actions: <Widget>[
             new FlatButton(
-                //onPressed: signOut,
-                child: new Text(
-              'Logout',
-              style: new TextStyle(fontSize: 17.0, color: Colors.white),
-            ))
+              //onPressed: signOut,
+              child: new Text(
+                'Logout',
+                style: new TextStyle(fontSize: 17.0, color: Colors.white),
+              ),
+              onPressed: _logout,
+            )
           ],
         ),
         body: StaggeredGridView.count(
