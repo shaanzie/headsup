@@ -21,12 +21,12 @@ class LandingPage extends StatelessWidget {
 
 class Credentials {
   final String email;
-  final String password;
+  final String role;
 
-  Credentials({this.email, this.password});
+  Credentials({this.email, this.role});
 
   factory Credentials.fromJson(Map<String, dynamic> json) {
-    return Credentials(email: json['email'], password: json['password']);
+    return Credentials(email: json['email'], role: json['role']);
   }
 }
 
@@ -51,11 +51,12 @@ class _SignInPageState extends State<SignInPage> {
             jsonEncode(<String, String>{'email': email, 'password': password}));
     print("Request: " + email + " : " + password);
     print("Response: " + response.body);
-    if (response.statusCode == 201) {
-      return Credentials.fromJson(json.decode(response.body));
-    } else {
-      return null;
-    }
+    // if (response.statusCode == 201) {
+    //   return Credentials.fromJson(json.decode(response.body));
+    // } else {
+    //   return null;
+    // }
+    return Credentials.fromJson(json.decode(response.body));
   }
 
   @override
@@ -89,12 +90,19 @@ class _SignInPageState extends State<SignInPage> {
                     ),
                     RaisedButton(
                       child: Text("LOGIN"),
-                      onPressed: () {
+                      onPressed: () async {
                         final form = _formKey.currentState;
                         form.save();
-                        dummy_val = responseCredentials(_email, _password);
-                        print("Dummy VAL: " + dummy_val.;
-                        if (dummy_val != null) {
+                        final http.Response response = await http.post(
+                            'http://52.249.198.183:5000/api/v1/login',
+                            headers: <String, String>{
+                              'Content-Type': 'application/json; charset=UTF-8'
+                            },
+                            body: jsonEncode(<String, String>{
+                              'email': _email,
+                              'password': _password
+                            }));
+                        if (response.statusCode == 201) {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
