@@ -49,10 +49,12 @@ class _SignInPageState extends State<SignInPage> {
         },
         body:
             jsonEncode(<String, String>{'email': email, 'password': password}));
+    print("Request: " + email + " : " + password);
+    print("Response: " + response.body);
     if (response.statusCode == 201) {
       return Credentials.fromJson(json.decode(response.body));
     } else {
-      throw Exception('User creation unsuccessful!');
+      return null;
     }
   }
 
@@ -91,6 +93,7 @@ class _SignInPageState extends State<SignInPage> {
                         final form = _formKey.currentState;
                         form.save();
                         dummy_val = responseCredentials(_email, _password);
+                        print("Dummy VAL: " + dummy_val.;
                         if (dummy_val != null) {
                           Navigator.pushReplacement(
                               context,
@@ -101,7 +104,11 @@ class _SignInPageState extends State<SignInPage> {
                                 //builder: (context) => Dashboard2(),
                               ));
                         } else {
-                          return SignInPage();
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  //if worker
+                                  builder: (context) => LandingPage()));
                         }
                       },
                     )
