@@ -28,8 +28,8 @@ class _HomePageState extends State<DashboardManager> {
 
   void _getUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _user = prefs.getString('Name');
-    print("Name: " + prefs.getString('Name'));
+    _user = prefs.getString('email');
+    print(_user);
   }
 
   @override
@@ -49,7 +49,7 @@ class _HomePageState extends State<DashboardManager> {
         ],
       ),
       body: Center(
-        child: Text("Hello, $_user!"),
+        child: Text("Hello, '$_user'!"),
       ),
     );
   }

@@ -68,7 +68,7 @@ class _SignInPageState extends State<SignInPage> {
                       onPressed: () async {
                         SharedPreferences prefs =
                             await SharedPreferences.getInstance();
-                        prefs.setString('Name', _email);
+
                         final form = _formKey.currentState;
                         form.save();
                         final http.Response response = await http.post(
@@ -80,7 +80,8 @@ class _SignInPageState extends State<SignInPage> {
                               'email': _email,
                               'password': _password
                             }));
-
+                        prefs.setString('email', _email);
+                        print(prefs.getString('email'));
                         if (response.statusCode == 201) {
                           role = json.decode(response.body)['role'];
                           if (role == 'supervisor') {
