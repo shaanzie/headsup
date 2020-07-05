@@ -5,21 +5,12 @@ import 'package:headsup/dashboard_manager.dart';
 import 'package:headsup/dashboard_worker.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'dashboard_manager.dart';
 import 'dashboard_manager.dart';
 import 'dashboard_worker.dart';
 
 class LandingPage extends StatelessWidget {
-  checkSignIn() {}
-
   @override
   Widget build(BuildContext context) {
-    // if (!checkSignIn()) {
-    //   return SignInPage();
-    // } else {
-    //   return HomePage();
-    // }
     return SignInPage();
   }
 }
