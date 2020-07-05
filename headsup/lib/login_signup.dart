@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:headsup/homepage.dart';
+import 'package:headsup/dashboard_worker.dart';
+
+import 'dashboard_worker.dart';
 
 class LandingPage extends StatelessWidget {
   checkSignIn() {}
@@ -47,7 +50,10 @@ class SignInPage extends StatelessWidget {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => HomePage(),
+                      //if worker
+                      builder: (context) => Dashboard(),
+                      //else
+                      //builder: (context) => Dashboard2(),
                     ));
               },
             )
