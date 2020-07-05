@@ -39,7 +39,7 @@ class _SignInPageState extends State<SignInPage> {
   final _formKey = GlobalKey<FormState>();
   String _password;
   String _email;
-
+  String role;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,15 +84,27 @@ class _SignInPageState extends State<SignInPage> {
                               'password': _password
                             }));
                         if (response.statusCode == 201) {
-                          print("Response: " + json.decode(response.body));
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                //if worker
-                                builder: (context) => Dashboard(),
-                                //else
-                                //builder: (context) => Dashboard2(),
-                              ));
+                          role = json.decode(response.body)['role'];
+                          if (role == 'supervisor') {
+                            //print("Response: " + json.decode(response.body));
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  //if worker
+                                  builder: (context) => HomePage(),
+                                  //else
+                                  //builder: (context) => Dashboard2(),
+                                ));
+                          } else {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  //if worker
+                                  builder: (context) => Dashboard(),
+                                  //else
+                                  //builder: (context) => Dashboard2(),
+                                ));
+                          }
                         } else {
                           Navigator.pushReplacement(
                               context,
