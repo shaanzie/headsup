@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:headsup/dashboard_manager.dart';
 import 'package:headsup/dashboard_worker.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'dashboard_manager.dart';
 
 class LandingPage extends StatelessWidget {
   checkSignIn() {}
@@ -16,17 +19,6 @@ class LandingPage extends StatelessWidget {
     //   return HomePage();
     // }
     return SignInPage();
-  }
-}
-
-class Credentials {
-  final String email;
-  final String role;
-
-  Credentials({this.email, this.role});
-
-  factory Credentials.fromJson(Map<String, dynamic> json) {
-    return Credentials(email: json['email'], role: json['role']);
   }
 }
 
@@ -72,6 +64,9 @@ class _SignInPageState extends State<SignInPage> {
                     RaisedButton(
                       child: Text("LOGIN"),
                       onPressed: () async {
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        prefs.setString('Name', _email);
                         final form = _formKey.currentState;
                         form.save();
                         final http.Response response = await http.post(
@@ -83,13 +78,14 @@ class _SignInPageState extends State<SignInPage> {
                               'email': _email,
                               'password': _password
                             }));
+
                         if (response.statusCode == 201) {
-                          print("Response: " + json.decode(response.body));
+                          // print("Response: " + json.decode(response.body));
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                 //if worker
-                                builder: (context) => Dashboard(),
+                                builder: (context) => DashboardManager(),
                                 //else
                                 //builder: (context) => Dashboard2(),
                               ));

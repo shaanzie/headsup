@@ -3,12 +3,12 @@ import 'package:headsup/login_signup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 
-class HomePage extends StatefulWidget {
+class DashboardManager extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<DashboardManager> {
   _logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
@@ -28,8 +28,8 @@ class _HomePageState extends State<HomePage> {
 
   void _getUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _user = prefs.getString('user');
-    print(prefs.getString('user'));
+    _user = prefs.getString('Name');
+    print("Name: " + prefs.getString('Name'));
   }
 
   @override
