@@ -89,19 +89,13 @@ class _SignInPageState extends State<SignInPage> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  //if worker
                                   builder: (context) => DashboardManager(),
-                                  //else
-                                  //builder: (context) => Dashboard2(),
                                 ));
                           } else {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  //if worker
                                   builder: (context) => Dashboard(),
-                                  //else
-                                  //builder: (context) => Dashboard2(),
                                 ));
                           }
                         } else {
