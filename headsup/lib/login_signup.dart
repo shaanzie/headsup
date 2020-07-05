@@ -38,6 +38,7 @@ class _SignInPageState extends State<SignInPage> {
   String _password;
   String _email;
 
+  int dummy_val = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
