@@ -21,6 +21,7 @@ class LandingPage extends StatelessWidget {
 class SignInPage extends StatelessWidget {
   // _signIn() {}
 
+  int dummy_val = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,14 +48,19 @@ class SignInPage extends StatelessWidget {
             RaisedButton(
               child: Text("LOGIN"),
               onPressed: () {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      //if worker
-                      builder: (context) => Dashboard(),
-                      //else
-                      //builder: (context) => Dashboard2(),
-                    ));
+                if (dummy_val == 1) {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Dashboard(),
+                      ));
+                } else {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          //builder: (context) => Dashboard2(), UNCOMMENT THIS
+                          ));
+                }
               },
             )
           ],
