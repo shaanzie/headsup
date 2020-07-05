@@ -39,25 +39,6 @@ class _SignInPageState extends State<SignInPage> {
   final _formKey = GlobalKey<FormState>();
   String _password;
   String _email;
-  Future<Credentials> dummy_val;
-
-  Future<Credentials> responseCredentials(String email, String password) async {
-    final http.Response response = await http.post(
-        'http://52.249.198.183:5000/api/v1/login',
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8'
-        },
-        body:
-            jsonEncode(<String, String>{'email': email, 'password': password}));
-    print("Request: " + email + " : " + password);
-    print("Response: " + response.body);
-    // if (response.statusCode == 201) {
-    //   return Credentials.fromJson(json.decode(response.body));
-    // } else {
-    //   return null;
-    // }
-    return Credentials.fromJson(json.decode(response.body));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,6 +84,7 @@ class _SignInPageState extends State<SignInPage> {
                               'password': _password
                             }));
                         if (response.statusCode == 201) {
+                          print("Response: " + json.decode(response.body));
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
