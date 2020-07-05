@@ -11,7 +11,7 @@ class LandingPage extends StatelessWidget {
     // } else {
     //   return HomePage();
     // }
-    return HomePage();
+    return SignInPage();
   }
 }
 
@@ -43,7 +43,13 @@ class SignInPage extends StatelessWidget {
             ),
             RaisedButton(
               child: Text("LOGIN"),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HomePage(),
+                    ));
+              },
             )
           ],
         ));
