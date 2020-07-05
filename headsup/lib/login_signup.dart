@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:headsup/dashboard_manager.dart';
 import 'package:headsup/dashboard_worker.dart';
@@ -37,8 +39,23 @@ class _SignInPageState extends State<SignInPage> {
   final _formKey = GlobalKey<FormState>();
   String _password;
   String _email;
+  Future<Credentials> dummy_val;
 
-  int dummy_val = 1;
+  Future<Credentials> responseCredentials(String email, String password) async {
+    final http.Response response = await http.post(
+        'http://52.249.198.183:5000/api/v1/login',
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body:
+            jsonEncode(<String, String>{'email': email, 'password': password}));
+    if (response.statusCode == 201) {
+      return Credentials.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('User creation unsuccessful!');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,14 +90,19 @@ class _SignInPageState extends State<SignInPage> {
                       onPressed: () {
                         final form = _formKey.currentState;
                         form.save();
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              //if worker
-                              builder: (context) => Dashboard(),
-                              //else
-                              //builder: (context) => Dashboard2(),
-                            ));
+                        dummy_val = responseCredentials(_email, _password);
+                        if (dummy_val != null) {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                //if worker
+                                builder: (context) => Dashboard(),
+                                //else
+                                //builder: (context) => Dashboard2(),
+                              ));
+                        } else {
+                          return SignInPage();
+                        }
                       },
                     )
                   ],
