@@ -7,6 +7,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'dashboard_manager.dart';
+import 'dashboard_manager.dart';
+import 'dashboard_worker.dart';
 
 class LandingPage extends StatelessWidget {
   checkSignIn() {}
@@ -31,7 +33,7 @@ class _SignInPageState extends State<SignInPage> {
   final _formKey = GlobalKey<FormState>();
   String _password;
   String _email;
-
+  String role;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,15 +82,27 @@ class _SignInPageState extends State<SignInPage> {
                             }));
 
                         if (response.statusCode == 201) {
-                          // print("Response: " + json.decode(response.body));
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                //if worker
-                                builder: (context) => DashboardManager(),
-                                //else
-                                //builder: (context) => Dashboard2(),
-                              ));
+                          role = json.decode(response.body)['role'];
+                          if (role == 'supervisor') {
+                            //print("Response: " + json.decode(response.body));
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  //if worker
+                                  builder: (context) => DashboardManager(),
+                                  //else
+                                  //builder: (context) => Dashboard2(),
+                                ));
+                          } else {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  //if worker
+                                  builder: (context) => Dashboard(),
+                                  //else
+                                  //builder: (context) => Dashboard2(),
+                                ));
+                          }
                         } else {
                           Navigator.pushReplacement(
                               context,
