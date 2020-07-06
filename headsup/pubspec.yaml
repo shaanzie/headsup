@@ -34,7 +34,10 @@ dependencies:
   http: ^0.12.1
   sticky_headers: "^0.1.8"
   fl_chart: ^0.10.1
-
+  pie_chart: ^3.1.1
+  syncfusion_flutter_charts: ^18.1.59
+  syncfusion_flutter_gauges: ^18.1.59
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

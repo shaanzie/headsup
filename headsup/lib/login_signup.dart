@@ -91,7 +91,7 @@ class _SignInPageState extends State<SignInPage> {
                             context,
                             MaterialPageRoute(
                                 //if worker
-                                builder: (context) => MyApp()));
+                                builder: (context) => WorkerDashboard()));
                         // }
                       },
                     )
