@@ -4,7 +4,6 @@ import 'package:headsup/login_signup.dart';
 import 'package:headsup/WorkerUI/calories.dart';
 import 'package:headsup/WorkerUI/pollution.dart';
 import 'package:headsup/WorkerUI/brain.dart';
-import 'package:sticky_headers/sticky_headers.dart';
 
 class WorkerDashboard extends StatefulWidget {
   @override
@@ -87,7 +86,7 @@ class _DashboardState extends State<WorkerDashboard> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          LandingPage(), // Change to Cal Count
+                                          PollutionActivity(), // Change to Cal Count
                                     ));
                               },
                             ));
