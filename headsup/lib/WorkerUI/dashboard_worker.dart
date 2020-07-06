@@ -15,10 +15,12 @@ class _DashboardState extends State<WorkerDashboard> {
   int touchedIndex = 0;
   int _index = 0;
 
+  _logout() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.lightBlue,
+        backgroundColor: Colors.black,
         body: SafeArea(
           child: Column(
             children: <Widget>[
@@ -26,12 +28,10 @@ class _DashboardState extends State<WorkerDashboard> {
                   padding: EdgeInsets.all(20),
                   child: Expanded(
                     child: Text(
-                      "Welcome back, '\$_user'",
-                      style: TextStyle(
-                        fontSize: 20,
-                        height: 5,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      "Welcome back, '\$_user'!",
+                      style:
+                          GoogleFonts.neuton(fontSize: 50, color: Colors.white),
+                      textAlign: TextAlign.center,
                     ),
                   )),
               Center(
@@ -196,6 +196,18 @@ class _DashboardState extends State<WorkerDashboard> {
                   ),
                 ),
               ),
+              Padding(
+                padding: EdgeInsets.all(20),
+                child: FlatButton(
+                  onPressed: _logout,
+                  child: Text(
+                    "LOGOUT",
+                    style:
+                        GoogleFonts.neuton(fontSize: 20, color: Colors.white),
+                  ),
+                  color: Colors.black12,
+                ),
+              )
             ],
           ),
         ));

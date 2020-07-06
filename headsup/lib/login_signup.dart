@@ -4,6 +4,7 @@ import 'package:headsup/ManagerUI/main.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'WorkerUI/dashboard_worker.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LandingPage extends StatelessWidget {
   @override
@@ -25,18 +26,15 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Sign In'),
-        ),
         body: Container(
             padding: EdgeInsets.all(20.0),
             child: Form(
                 key: _formKey,
                 child: Column(
                   children: <Widget>[
-                    Text(
-                      'Login information',
-                      style: TextStyle(fontSize: 20),
+                    Container(
+                      padding: EdgeInsets.all(20),
+                      child: Image.asset('assets/headsup.jpg'),
                     ),
                     TextFormField(
                       onSaved: (newValue) => _email = newValue,
