@@ -4,6 +4,7 @@ import 'package:headsup/login_signup.dart';
 import 'package:headsup/WorkerUI/calories.dart';
 import 'package:headsup/WorkerUI/pollution.dart';
 import 'package:headsup/WorkerUI/brain.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class WorkerDashboard extends StatefulWidget {
   @override
@@ -17,7 +18,7 @@ class _DashboardState extends State<WorkerDashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.lightBlueAccent,
+        backgroundColor: Colors.lightBlue,
         body: SafeArea(
           child: Column(
             children: <Widget>[
@@ -38,7 +39,7 @@ class _DashboardState extends State<WorkerDashboard> {
                   height: 600, // card height
                   child: PageView.builder(
                     itemCount: 4,
-                    controller: PageController(viewportFraction: 0.8),
+                    controller: PageController(viewportFraction: 0.9),
                     onPageChanged: (int index) =>
                         setState(() => _index = index),
                     itemBuilder: (_, i) {
@@ -51,9 +52,22 @@ class _DashboardState extends State<WorkerDashboard> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20)),
                                 child: Center(
-                                  child: Text(
-                                    "Calorie Counter",
-                                    style: TextStyle(fontSize: 32),
+                                  child: Container(
+                                    child: Column(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.all(20),
+                                          child:
+                                              Image.asset('assets/calorie.jpg'),
+                                        ),
+                                        Text(
+                                          "Calorie Counter",
+                                          style: GoogleFonts.neuton(
+                                            fontSize: 50,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -75,9 +89,22 @@ class _DashboardState extends State<WorkerDashboard> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20)),
                                 child: Center(
-                                  child: Text(
-                                    "Ambient Pollution",
-                                    style: TextStyle(fontSize: 32),
+                                  child: Container(
+                                    child: Column(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.all(20),
+                                          child: Image.asset(
+                                              'assets/pollution.jpg'),
+                                        ),
+                                        Text(
+                                          "Ambient Pollution",
+                                          style: GoogleFonts.neuton(
+                                            fontSize: 50,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -99,9 +126,22 @@ class _DashboardState extends State<WorkerDashboard> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20)),
                                 child: Center(
-                                  child: Text(
-                                    "Brain Activity",
-                                    style: TextStyle(fontSize: 32),
+                                  child: Container(
+                                    child: Column(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.all(20),
+                                          child:
+                                              Image.asset('assets/brain.png'),
+                                        ),
+                                        Text(
+                                          "Brain Activity",
+                                          style: GoogleFonts.neuton(
+                                            fontSize: 50,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -123,9 +163,22 @@ class _DashboardState extends State<WorkerDashboard> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20)),
                                 child: Center(
-                                  child: Text(
-                                    "Schedule",
-                                    style: TextStyle(fontSize: 32),
+                                  child: Container(
+                                    child: Column(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.all(20),
+                                          child: Image.asset(
+                                              'assets/schedule.png'),
+                                        ),
+                                        Text(
+                                          "Schedule",
+                                          style: GoogleFonts.neuton(
+                                            fontSize: 50,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),

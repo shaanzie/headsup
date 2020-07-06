@@ -39,6 +39,7 @@ dependencies:
   syncfusion_flutter_gauges: ^18.1.59
   time_machine: ^0.9.12
   flutter_week_view: ^0.3.1
+  google_fonts: ^1.1.0
   
 dev_dependencies:
   flutter_test:
@@ -60,9 +61,10 @@ flutter:
    - assets/activity.png
    - packages/time_machine/data/cultures/cultures.bin
    - packages/time_machine/data/tzdb/tzdb.bin
-  #  - assets/image_02.jpg
-  #  - assets/image_03.jpg
-  #  - assets/image_04.jpg
+   - assets/calorie.jpg
+   - assets/pollution.jpg
+   - assets/brain.png
+   - assets/schedule.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
