@@ -111,7 +111,7 @@ class _DashboardState extends State<WorkerDashboard> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          LandingPage(), // Change to Cal Count
+                                          BrainActivity(), // Change to Cal Count
                                     ));
                               },
                             ));
