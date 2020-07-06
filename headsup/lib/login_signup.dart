@@ -22,7 +22,7 @@ class LandingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SignInPage();
+    return _checkSignIn();
   }
 }
 
