@@ -5,6 +5,7 @@ import 'package:headsup/WorkerUI/calories.dart';
 import 'package:headsup/WorkerUI/pollution.dart';
 import 'package:headsup/WorkerUI/brain.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WorkerDashboard extends StatefulWidget {
   @override
@@ -14,8 +15,19 @@ class WorkerDashboard extends StatefulWidget {
 class _DashboardState extends State<WorkerDashboard> {
   int touchedIndex = 0;
   int _index = 0;
+  String _user;
 
-  _logout() {}
+  _getUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _user = prefs.get('email');
+    print("User: " + _user);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getUser();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +40,7 @@ class _DashboardState extends State<WorkerDashboard> {
                   padding: EdgeInsets.all(20),
                   child: Expanded(
                     child: Text(
-                      "Welcome back, '\$_user'!",
+                      "Welcome back, '$_user'!",
                       style:
                           GoogleFonts.neuton(fontSize: 50, color: Colors.white),
                       textAlign: TextAlign.center,
@@ -199,7 +211,13 @@ class _DashboardState extends State<WorkerDashboard> {
               Padding(
                 padding: EdgeInsets.all(20),
                 child: FlatButton(
-                  onPressed: _logout,
+                  onPressed: () async {
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    prefs.clear();
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => SignInPage()));
+                  },
                   child: Text(
                     "LOGOUT",
                     style:
