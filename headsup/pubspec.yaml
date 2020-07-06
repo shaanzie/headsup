@@ -66,6 +66,11 @@ flutter:
    - assets/brain.png
    - assets/schedule.png
    - assets/headsup.jpg
+   - assets/images/productivity.png
+   - assets/images/worker.jpg
+   - assets/images/fatigue.jpg
+   - assets/images/linechart.png
+   - assets/images/piechart.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
