@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:headsup/ManagerUI/dashboard_manager.dart';
-import 'package:headsup/WorkerUI/dashboard_worker.dart';
+import 'package:headsup/ManagerUI/main.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'WorkerUI/dashboard_worker.dart';
@@ -92,7 +91,7 @@ class _SignInPageState extends State<SignInPage> {
                             context,
                             MaterialPageRoute(
                                 //if worker
-                                builder: (context) => WorkerDashboard()));
+                                builder: (context) => MyApp()));
                         // }
                       },
                     )
