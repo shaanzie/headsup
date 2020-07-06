@@ -1,12 +1,10 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:headsup/dashboard_manager.dart';
-import 'package:headsup/dashboard_worker.dart';
+import 'package:headsup/ManagerUI/dashboard_manager.dart';
+import 'package:headsup/WorkerUI/dashboard_worker.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dashboard_manager.dart';
-import 'dashboard_worker.dart';
+import 'WorkerUI/dashboard_worker.dart';
 
 class LandingPage extends StatelessWidget {
   @override
@@ -57,45 +55,45 @@ class _SignInPageState extends State<SignInPage> {
                     RaisedButton(
                       child: Text("LOGIN"),
                       onPressed: () async {
-                        SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
+                        // SharedPreferences prefs =
+                        //     await SharedPreferences.getInstance();
 
-                        final form = _formKey.currentState;
-                        form.save();
-                        final http.Response response = await http.post(
-                            'http://52.249.198.183:5000/api/v1/login',
-                            headers: <String, String>{
-                              'Content-Type': 'application/json; charset=UTF-8'
-                            },
-                            body: jsonEncode(<String, String>{
-                              'email': _email,
-                              'password': _password
-                            }));
-                        prefs.setString('email', _email);
-                        print(prefs.getString('email'));
-                        if (response.statusCode == 201) {
-                          role = json.decode(response.body)['role'];
-                          if (role == 'supervisor') {
-                            //print("Response: " + json.decode(response.body));
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => DashboardManager(),
-                                ));
-                          } else {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Dashboard(),
-                                ));
-                          }
-                        } else {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  //if worker
-                                  builder: (context) => LandingPage()));
-                        }
+                        // final form = _formKey.currentState;
+                        // form.save();
+                        // final http.Response response = await http.post(
+                        //     'http://52.249.198.183:5000/api/v1/login',
+                        //     headers: <String, String>{
+                        //       'Content-Type': 'application/json; charset=UTF-8'
+                        //     },
+                        //     body: jsonEncode(<String, String>{
+                        //       'email': _email,
+                        //       'password': _password
+                        //     }));
+                        // prefs.setString('email', _email);
+                        // print(prefs.getString('email'));
+                        // if (response.statusCode == 201) {
+                        //   role = json.decode(response.body)['role'];
+                        //   if (role == 'supervisor') {
+                        //     //print("Response: " + json.decode(response.body));
+                        //     Navigator.pushReplacement(
+                        //         context,
+                        //         MaterialPageRoute(
+                        //           builder: (context) => DashboardManager(),
+                        //         ));
+                        //   } else {
+                        //     Navigator.pushReplacement(
+                        //         context,
+                        //         MaterialPageRoute(
+                        //           builder: (context) => Dashboard(),
+                        //         ));
+                        //   }
+                        // } else {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                //if worker
+                                builder: (context) => WorkerDashboard()));
+                        // }
                       },
                     )
                   ],
