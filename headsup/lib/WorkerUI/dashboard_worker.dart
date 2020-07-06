@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:headsup/WorkerUI/schedule.dart';
 import 'package:headsup/login_signup.dart';
 import 'package:headsup/WorkerUI/brain.dart';
 import 'package:headsup/WorkerUI/calories.dart';
@@ -118,7 +119,7 @@ class _DashboardState extends State<WorkerDashboard> {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  LandingPage(), // Change to Cal Count
+                                  ScheduleActivity(), // Change to Cal Count
                             ));
                       },
                     ));

@@ -37,6 +37,8 @@ dependencies:
   pie_chart: ^3.1.1
   syncfusion_flutter_charts: ^18.1.59
   syncfusion_flutter_gauges: ^18.1.59
+  time_machine: ^0.9.12
+  flutter_week_view: ^0.3.1
   
 dev_dependencies:
   flutter_test:
@@ -56,6 +58,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
    - assets/activity.png
+   - packages/time_machine/data/cultures/cultures.bin
+   - packages/time_machine/data/tzdb/tzdb.bin
   #  - assets/image_02.jpg
   #  - assets/image_03.jpg
   #  - assets/image_04.jpg
