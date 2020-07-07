@@ -162,9 +162,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         )),
                     Center(
                       child: SizedBox(
-                        height: 600, // card height
+                        height: 400, // card height
                         child: PageView.builder(
-                          itemCount: 5,
+                          itemCount: 3,
                           controller: PageController(viewportFraction: 0.9),
                           onPageChanged: (int index) =>
                               setState(() => _index = index),
@@ -263,7 +263,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               Padding(
                                                 padding: EdgeInsets.all(20),
                                                 child: Image.asset(
-                                                    'assets/images/fatigue.png'),
+                                                    'assets/images/fatigue.jpg'),
                                               ),
                                               Text(
                                                 "Fatigue",

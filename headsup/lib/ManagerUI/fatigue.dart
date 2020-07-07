@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:headsup/ManagerUI/line_chart.dart';
+import 'package:headsup/ManagerUI/option.dart';
 //import 'package:shared_preferences/shared_preferences.dart';
 
 class Fatigue extends StatelessWidget {
@@ -51,7 +52,7 @@ class _MyFatigue extends State<MyFatigue> {
                   )),
               Center(
                 child: SizedBox(
-                  height: 600, // card height
+                  height: 400, // card height
                   child: PageView.builder(
                     itemCount: 3,
                     controller: PageController(viewportFraction: 0.7),
@@ -77,8 +78,8 @@ class _MyFatigue extends State<MyFatigue> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => LineChartSample1(
-                                        something: "1234",
+                                      builder: (context) => MyApp100(
+                                        something: "234",
                                       ), // Change to Cal Count
                                     ));
                               },
@@ -102,9 +103,9 @@ class _MyFatigue extends State<MyFatigue> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => LineChartSample1(
-                                          something:
-                                              "12345"), // Change to Cal Count
+                                      builder: (context) => MyApp100(
+                                        something: "567",
+                                      ), // Change to Cal Count
                                     ));
                               },
                             ));
@@ -127,9 +128,9 @@ class _MyFatigue extends State<MyFatigue> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => LineChartSample1(
-                                          something:
-                                              "12356"), // Change to Cal Count
+                                      builder: (context) => MyApp100(
+                                        something: "890",
+                                      ), // Change to Cal Count
                                     ));
                               },
                             ));
