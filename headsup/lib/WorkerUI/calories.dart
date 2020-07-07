@@ -16,9 +16,11 @@ class CalorieActivity extends StatefulWidget {
 
 class _CalorieActivityState extends State<CalorieActivity> {
   bool _isLoading = false;
+  String _eid;
   String _email;
-  String _collect;
-  int _steps;
+  var _collect;
+  var _steps;
+  var _temp;
   @override
   void initState() {
     super.initState();
@@ -31,16 +33,16 @@ class _CalorieActivityState extends State<CalorieActivity> {
     });
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _email = prefs.get('email');
+    _eid = prefs.get('eid');
     final http.Response response = await http.post(
-      'http://52.249.198.183:5000/api/v1/steps',
+      'http://137.135.89.132:5000/api/v1/pulldata',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8'
       },
-      body: jsonEncode({'email': _email}),
+      body: jsonEncode({'type': "person", "employeeID": _eid}),
     );
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       _collect = json.decode(response.body)['data'];
-      _steps = int.parse(_collect);
     } else {
       throw Exception("User not found!");
     }

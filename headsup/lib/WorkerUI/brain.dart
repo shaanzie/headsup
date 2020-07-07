@@ -12,9 +12,10 @@ class BrainActivity extends StatefulWidget {
 }
 
 class _BrainState extends State<BrainActivity> {
-  String _email;
-  String _collect;
-  List<double> _data;
+  String _eid;
+  var _collect;
+  var _label;
+  List<double> _data = List<double>();
   bool _isLoading = false;
 
   @override
@@ -28,20 +29,22 @@ class _BrainState extends State<BrainActivity> {
       _isLoading = true;
     });
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _email = prefs.get('email');
+    _eid = prefs.get('eid');
     final http.Response response = await http.post(
-      'http://52.249.198.183:5000/api/v1/brain',
+      'http://137.135.89.132:5000/api/v1/pulldata',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8'
       },
-      body: jsonEncode({'email': _email}),
+      body: jsonEncode({'type': "person", "employeeID": _eid}),
     );
-    if (response.statusCode == 200) {
-      _collect = json.decode(response.body)['data'];
-      List<String> _splitData = _collect.split(',');
-      for (int i = 0; i < _splitData.length; i++) {
-        _data.add(double.parse(_splitData[i]));
+    if (response.statusCode == 201) {
+      _label = json.decode(response.body);
+      _collect = _label['data'] as List;
+      for (int i = 0; i < _collect.length; i++) {
+        print('Collect: ' + _collect[i].toString());
+        _data.add(_collect[i]);
       }
+      // print(_data.runtimeType);
     } else {
       throw Exception("User not found!");
     }
@@ -52,9 +55,11 @@ class _BrainState extends State<BrainActivity> {
 
   @override
   Widget build(BuildContext context) {
-    List<BrainData> chartData;
-    for (int i = 0; i < _data.length; i++) {
-      chartData.add(BrainData(i, _data[i]));
+    List<BrainData> chartData = List<BrainData>();
+    if (_isLoading == false) {
+      for (int i = 0; i < _data.length; i++) {
+        chartData.add(BrainData(i, _data[i]));
+      }
     }
 
     final List<Color> color = <Color>[];
@@ -88,6 +93,11 @@ class _BrainState extends State<BrainActivity> {
                         yValueMapper: (BrainData brain, _) => brain.brainProf,
                         gradient: gradientColors)
                   ],
+                  primaryXAxis: CategoryAxis(
+                    title: AxisTitle(text: 'Timestamp'),
+                  ),
+                  primaryYAxis: CategoryAxis(
+                      title: AxisTitle(text: 'Productivity Index')),
                 ),
               ),
             ),

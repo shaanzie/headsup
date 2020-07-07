@@ -42,6 +42,7 @@ class _SignInPageState extends State<SignInPage> {
   String _password;
   String _email;
   String role;
+  String eid;
   bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
@@ -103,8 +104,11 @@ class _SignInPageState extends State<SignInPage> {
 
                             if (response.statusCode == 201) {
                               role = json.decode(response.body)['role'];
+                              print(response.body);
+                              eid = json.decode(response.body)['employeeID'];
                               prefs.setString('role', role);
-                              print(prefs.getString('role'));
+                              prefs.setString('eid', eid);
+                              print("Eid: " + prefs.getString('eid'));
                               if (role == 'supervisor') {
                                 Navigator.pushReplacement(
                                     context,

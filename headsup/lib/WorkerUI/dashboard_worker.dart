@@ -162,7 +162,7 @@ class _DashboardState extends State<WorkerDashboard> {
                                                     'assets/brain.png'),
                                               ),
                                               Text(
-                                                "Brain Activity",
+                                                "Productivity Index",
                                                 style: GoogleFonts.neuton(
                                                   fontSize: 50,
                                                 ),
