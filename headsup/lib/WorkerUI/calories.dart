@@ -67,7 +67,7 @@ class _CalorieActivityState extends State<CalorieActivity> {
                       height: 250,
                       child: SfRadialGauge(
                           enableLoadingAnimation: true,
-                          animationDuration: 2000,
+                          animationDuration: 4500,
                           axes: <RadialAxis>[
                             RadialAxis(
                                 minimum: 0,
@@ -114,51 +114,43 @@ class _CalorieActivityState extends State<CalorieActivity> {
                   ),
                   Center(
                     child: SizedBox(
-                      height: 250,
+                      height: 300,
                       child: SfRadialGauge(
-                          enableLoadingAnimation: true,
-                          animationDuration: 2000,
-                          axes: <RadialAxis>[
-                            RadialAxis(
-                                minimum: 0,
-                                maximum: 30000,
-                                ranges: <GaugeRange>[
-                                  GaugeRange(
-                                      startValue: 0,
-                                      endValue: 10000,
-                                      color: Colors.red,
-                                      startWidth: 10,
-                                      endWidth: 10),
-                                  GaugeRange(
-                                      startValue: 10000,
-                                      endValue: 20000,
-                                      color: Colors.orange,
-                                      startWidth: 10,
-                                      endWidth: 10),
-                                  GaugeRange(
-                                      startValue: 20000,
-                                      endValue: 30000,
-                                      color: Colors.green,
-                                      startWidth: 10,
-                                      endWidth: 10)
-                                ],
-                                pointers: <GaugePointer>[
-                                  NeedlePointer(
-                                    value: double.parse(_collect.toString()),
-                                  )
-                                ],
-                                annotations: <GaugeAnnotation>[
-                                  GaugeAnnotation(
-                                      widget: Container(
-                                          child: Text("$_collect steps today!",
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  fontWeight:
-                                                      FontWeight.bold))),
-                                      angle: 90,
-                                      positionFactor: 0.5)
-                                ])
-                          ]),
+                        enableLoadingAnimation: true,
+                        axes: <RadialAxis>[
+                          RadialAxis(
+                            axisLineStyle: AxisLineStyle(
+                              thickness: 0.1,
+                              thicknessUnit: GaugeSizeUnit.factor,
+                            ),
+                            minimum: 0,
+                            maximum: 10000,
+                            pointers: <GaugePointer>[
+                              RangePointer(
+                                value: double.parse(_collect.toString()),
+                                width: 0.1,
+                                sizeUnit: GaugeSizeUnit.factor,
+                                gradient: const SweepGradient(
+                                  colors: <Color>[
+                                    Color(0xFFCC2B5E),
+                                    Color(0xFF753A88)
+                                  ],
+                                  stops: <double>[0.25, 0.75],
+                                ),
+                                animationDuration: 4500,
+                                animationType: AnimationType.linear,
+                              ),
+                            ],
+                            annotations: <GaugeAnnotation>[
+                              GaugeAnnotation(
+                                widget: Text(
+                                  "$_collect steps today!",
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Container(

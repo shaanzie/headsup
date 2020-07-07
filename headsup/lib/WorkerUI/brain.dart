@@ -72,11 +72,9 @@ class _BrainState extends State<BrainActivity> {
     stops.add(0.5);
     stops.add(1.0);
 
-    final LinearGradient gradientColors =
-        LinearGradient(colors: color, stops: stops);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Brain Activity"),
+        title: Text("Productivity Index"),
       ),
       body: _isLoading
           ? Center(
@@ -88,16 +86,27 @@ class _BrainState extends State<BrainActivity> {
                   series: <ChartSeries>[
                     // Renders area chart
                     AreaSeries<BrainData, int>(
-                        dataSource: chartData,
-                        xValueMapper: (BrainData brain, _) => brain.year,
-                        yValueMapper: (BrainData brain, _) => brain.brainProf,
-                        gradient: gradientColors)
+                      dataSource: chartData,
+                      color: Colors.transparent,
+                      xValueMapper: (BrainData brain, _) => brain.year,
+                      yValueMapper: (BrainData brain, _) => brain.brainProf,
+                      trendlines: <Trendline>[
+                        Trendline(
+                          type: TrendlineType.polynomial,
+                          color: Colors.transparent,
+                          enableTooltip: true,
+                        )
+                      ],
+                    ),
                   ],
                   primaryXAxis: CategoryAxis(
                     title: AxisTitle(text: 'Timestamp'),
                   ),
                   primaryYAxis: CategoryAxis(
                       title: AxisTitle(text: 'Productivity Index')),
+                  tooltipBehavior: TooltipBehavior(enable: true, shared: true),
+                  zoomPanBehavior: ZoomPanBehavior(enablePinching: true),
+                  backgroundColor: Colors.transparent,
                 ),
               ),
             ),

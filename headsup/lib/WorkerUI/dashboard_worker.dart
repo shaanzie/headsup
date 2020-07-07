@@ -7,21 +7,8 @@ import 'package:headsup/WorkerUI/calories.dart';
 import 'package:headsup/WorkerUI/pollution.dart';
 import 'package:headsup/WorkerUI/brain.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/browser_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vibrate/vibrate.dart';
-import 'package:eventsource/eventsource.dart';
-
-sendAlert() async {
-  EventSource eventSource = await EventSource.connect(
-      'http://137.135.89.132:5000/api/v1/stream',
-      client: new BrowserClient());
-
-  eventSource.listen((event) {
-    print("Event: ${event.event}");
-    print("Data: ${event.data}");
-  });
-}
 
 class MyAlert extends StatelessWidget {
   @override
