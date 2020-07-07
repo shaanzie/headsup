@@ -15,8 +15,18 @@ class _BrainState extends State<BrainActivity> {
   String _email;
   String _collect;
   List<double> _data;
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _getData();
+  }
 
   _getData() async {
+    setState(() {
+      _isLoading = true;
+    });
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _email = prefs.get('email');
     final http.Response response = await http.post(
@@ -35,6 +45,9 @@ class _BrainState extends State<BrainActivity> {
     } else {
       throw Exception("User not found!");
     }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -60,20 +73,24 @@ class _BrainState extends State<BrainActivity> {
       appBar: AppBar(
         title: Text("Brain Activity"),
       ),
-      body: Center(
-        child: Container(
-          child: SfCartesianChart(
-            series: <ChartSeries>[
-              // Renders area chart
-              AreaSeries<BrainData, int>(
-                  dataSource: chartData,
-                  xValueMapper: (BrainData brain, _) => brain.year,
-                  yValueMapper: (BrainData brain, _) => brain.brainProf,
-                  gradient: gradientColors)
-            ],
-          ),
-        ),
-      ),
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : Center(
+              child: Container(
+                child: SfCartesianChart(
+                  series: <ChartSeries>[
+                    // Renders area chart
+                    AreaSeries<BrainData, int>(
+                        dataSource: chartData,
+                        xValueMapper: (BrainData brain, _) => brain.year,
+                        yValueMapper: (BrainData brain, _) => brain.brainProf,
+                        gradient: gradientColors)
+                  ],
+                ),
+              ),
+            ),
     );
   }
 }

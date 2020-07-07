@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:headsup/WorkerUI/rewards.dart';
 import 'package:headsup/WorkerUI/schedule.dart';
 import 'package:headsup/login_signup.dart';
 import 'package:headsup/WorkerUI/calories.dart';
@@ -61,7 +62,7 @@ class _DashboardState extends State<WorkerDashboard> {
                       child: SizedBox(
                         height: 600, // card height
                         child: PageView.builder(
-                          itemCount: 4,
+                          itemCount: 5,
                           controller: PageController(viewportFraction: 0.9),
                           onPageChanged: (int index) =>
                               setState(() => _index = index),
@@ -180,7 +181,7 @@ class _DashboardState extends State<WorkerDashboard> {
                                           ));
                                     },
                                   ));
-                            } else {
+                            } else if (i == 3) {
                               return Transform.scale(
                                   scale: i == _index ? 1 : 0.9,
                                   child: GestureDetector(
@@ -215,6 +216,44 @@ class _DashboardState extends State<WorkerDashboard> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 ScheduleActivity(), // Change to Cal Count
+                                          ));
+                                    },
+                                  ));
+                            } else {
+                              return Transform.scale(
+                                  scale: i == _index ? 1 : 0.9,
+                                  child: GestureDetector(
+                                    child: Card(
+                                      elevation: 6,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
+                                      child: Center(
+                                        child: Container(
+                                          child: Column(
+                                            children: <Widget>[
+                                              Padding(
+                                                padding: EdgeInsets.all(20),
+                                                child: Image.asset(
+                                                    'assets/reward.png'),
+                                              ),
+                                              Text(
+                                                "Rewards",
+                                                style: GoogleFonts.neuton(
+                                                  fontSize: 50,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                RewardActivity(), // Change to Cal Count
                                           ));
                                     },
                                   ));

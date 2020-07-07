@@ -71,6 +71,7 @@ flutter:
    - assets/images/fatigue.jpg
    - assets/images/linechart.png
    - assets/images/piechart.jpg
+   - assets/reward.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
