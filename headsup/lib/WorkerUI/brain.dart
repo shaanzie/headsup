@@ -57,8 +57,8 @@ class _BrainState extends State<BrainActivity> {
   Widget build(BuildContext context) {
     List<BrainData> chartData = List<BrainData>();
     if (_isLoading == false) {
-      for (int i = 0; i < _data.length; i++) {
-        chartData.add(BrainData(i, _data[i]));
+      for (int i = 1; i <= _data.length; i++) {
+        chartData.add(BrainData(i, _data[i - 1]));
       }
     }
 
