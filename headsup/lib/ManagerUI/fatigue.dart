@@ -77,8 +77,9 @@ class _MyFatigue extends State<MyFatigue> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          LineChartSample1(), // Change to Cal Count
+                                      builder: (context) => LineChartSample1(
+                                        something: "1234",
+                                      ), // Change to Cal Count
                                     ));
                               },
                             ));
@@ -101,8 +102,9 @@ class _MyFatigue extends State<MyFatigue> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          LineChartSample1(), // Change to Cal Count
+                                      builder: (context) => LineChartSample1(
+                                          something:
+                                              "12345"), // Change to Cal Count
                                     ));
                               },
                             ));
@@ -125,8 +127,9 @@ class _MyFatigue extends State<MyFatigue> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          LineChartSample1(), // Change to Cal Count
+                                      builder: (context) => LineChartSample1(
+                                          something:
+                                              "12356"), // Change to Cal Count
                                     ));
                               },
                             ));

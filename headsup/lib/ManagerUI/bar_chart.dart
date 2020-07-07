@@ -1,271 +1,97 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class BarChartSample2 extends StatefulWidget {
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+/*
+class LineChartSample1 extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => BarChartSample2State();
+  State<StatefulWidget> createState() => LineChartSample1State();
+}
+*/
+
+class BarChartSample1 extends StatefulWidget {
+  final String something;
+  BarChartSample1({Key key, @required this.something}) : super(key: key);
+
+  @override
+  _BarChartSample1State createState() => _BarChartSample1State(something);
 }
 
-class BarChartSample2State extends State<BarChartSample2> {
-  final Color leftBarColor = const Color(0xff53fdd7);
-  final Color rightBarColor = const Color(0xffff5182);
-  final double width = 7;
-
-  List<BarChartGroupData> rawBarGroups;
-  List<BarChartGroupData> showingBarGroups;
-
-  int touchedGroupIndex;
+class _BarChartSample1State extends State<BarChartSample1> {
+  String something;
+  _BarChartSample1State(this.something);
 
   @override
   void initState() {
     super.initState();
-    final barGroup1 = makeGroupData(0, 5, 12);
-    final barGroup2 = makeGroupData(1, 16, 12);
-    final barGroup3 = makeGroupData(2, 18, 5);
-    final barGroup4 = makeGroupData(3, 20, 16);
-    final barGroup5 = makeGroupData(4, 17, 6);
-    final barGroup6 = makeGroupData(5, 19, 1.5);
-    final barGroup7 = makeGroupData(6, 10, 1.5);
+    isShowingMainData = true;
+    _getData();
+  }
 
-    final items = [
-      barGroup1,
-      barGroup2,
-      barGroup3,
-      barGroup4,
-      barGroup5,
-      barGroup6,
-      barGroup7,
-    ];
-
-    rawBarGroups = items;
-
-    showingBarGroups = rawBarGroups;
+  bool isShowingMainData;
+  bool _isLoading = false;
+  var _data;
+  var _rest;
+  var _restMap;
+  int listLength;
+  var listData;
+  _getData() async {
+    setState(() {
+      _isLoading = true;
+    });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final http.Response response = await http.post(
+      'http://137.135.89.132:5000/api/v1/pulldata',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8'
+      },
+      body: jsonEncode({'type': "person", "employeeID": something}),
+    );
+    if (response.statusCode == 201) {
+      print(json.decode(response.body));
+      _data = json.decode(response.body);
+      print(_data);
+      _rest = _data["data"] as List;
+      print(_rest);
+      listLength = _rest.length;
+      _restMap = _rest.asMap();
+    } else {
+      throw Exception("User not found!");
+    }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1,
-      child: Card(
-        elevation: 0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-        color: const Color(0xff2c4260),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  makeTransactionsIcon(),
-                  const SizedBox(
-                    width: 38,
-                  ),
-                  const Text(
-                    'Transactions',
-                    style: TextStyle(color: Colors.white, fontSize: 22),
-                  ),
-                  const SizedBox(
-                    width: 4,
-                  ),
-                  const Text(
-                    'state',
-                    style: TextStyle(color: Color(0xff77839a), fontSize: 16),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 38,
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: BarChart(
-                    BarChartData(
-                      maxY: 20,
-                      barTouchData: BarTouchData(
-                          touchTooltipData: BarTouchTooltipData(
-                            tooltipBgColor: Colors.grey,
-                            getTooltipItem: (_a, _b, _c, _d) => null,
-                          ),
-                          touchCallback: (response) {
-                            if (response.spot == null) {
-                              setState(() {
-                                touchedGroupIndex = -1;
-                                showingBarGroups = List.of(rawBarGroups);
-                              });
-                              return;
-                            }
-
-                            touchedGroupIndex =
-                                response.spot.touchedBarGroupIndex;
-
-                            setState(() {
-                              if (response.touchInput is FlLongPressEnd ||
-                                  response.touchInput is FlPanEnd) {
-                                touchedGroupIndex = -1;
-                                showingBarGroups = List.of(rawBarGroups);
-                              } else {
-                                showingBarGroups = List.of(rawBarGroups);
-                                if (touchedGroupIndex != -1) {
-                                  double sum = 0;
-                                  for (BarChartRodData rod
-                                      in showingBarGroups[touchedGroupIndex]
-                                          .barRods) {
-                                    sum += rod.y;
-                                  }
-                                  final avg = sum /
-                                      showingBarGroups[touchedGroupIndex]
-                                          .barRods
-                                          .length;
-
-                                  showingBarGroups[touchedGroupIndex] =
-                                      showingBarGroups[touchedGroupIndex]
-                                          .copyWith(
-                                    barRods: showingBarGroups[touchedGroupIndex]
-                                        .barRods
-                                        .map((rod) {
-                                      return rod.copyWith(y: avg);
-                                    }).toList(),
-                                  );
-                                }
-                              }
-                            });
-                          }),
-                      titlesData: FlTitlesData(
-                        show: true,
-                        bottomTitles: SideTitles(
-                          showTitles: true,
-                          textStyle: TextStyle(
-                              color: const Color(0xff7589a2),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14),
-                          margin: 20,
-                          getTitles: (double value) {
-                            switch (value.toInt()) {
-                              case 0:
-                                return 'Mn';
-                              case 1:
-                                return 'Te';
-                              case 2:
-                                return 'Wd';
-                              case 3:
-                                return 'Tu';
-                              case 4:
-                                return 'Fr';
-                              case 5:
-                                return 'St';
-                              case 6:
-                                return 'Sn';
-                              default:
-                                return '';
-                            }
-                          },
-                        ),
-                        leftTitles: SideTitles(
-                          showTitles: true,
-                          textStyle: TextStyle(
-                              color: const Color(0xff7589a2),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14),
-                          margin: 32,
-                          reservedSize: 14,
-                          getTitles: (value) {
-                            if (value == 0) {
-                              return '1K';
-                            } else if (value == 10) {
-                              return '5K';
-                            } else if (value == 19) {
-                              return '10K';
-                            } else {
-                              return '';
-                            }
-                          },
-                        ),
-                      ),
-                      borderData: FlBorderData(
-                        show: false,
-                      ),
-                      barGroups: showingBarGroups,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+    final List<SalesData> chartData = [];
+    if (_isLoading == false) {
+      for (int i = 1; i <= listLength; i++) {
+        listData = SalesData(i, _restMap[i - 1]);
+        chartData.insert(i - 1, listData);
+      }
+    }
+    return Scaffold(
+        body: Center(
+            child: Container(
+                child: SfCartesianChart(series: <ChartSeries>[
+      ColumnSeries<SalesData, int>(
+          dataSource: chartData,
+          xValueMapper: (SalesData sales, _) => sales.year,
+          yValueMapper: (SalesData sales, _) => sales.sales,
+          // Sets the corner radius
+          borderRadius: BorderRadius.all(Radius.circular(15)))
+    ]))));
   }
+}
 
-  BarChartGroupData makeGroupData(int x, double y1, double y2) {
-    return BarChartGroupData(barsSpace: 4, x: x, barRods: [
-      BarChartRodData(
-        y: y1,
-        color: leftBarColor,
-        width: width,
-      ),
-      BarChartRodData(
-        y: y2,
-        color: rightBarColor,
-        width: width,
-      ),
-    ]);
-  }
-
-  Widget makeTransactionsIcon() {
-    const double width = 4.5;
-    const double space = 3.5;
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Container(
-          width: width,
-          height: 10,
-          color: Colors.white.withOpacity(0.4),
-        ),
-        const SizedBox(
-          width: space,
-        ),
-        Container(
-          width: width,
-          height: 28,
-          color: Colors.white.withOpacity(0.8),
-        ),
-        const SizedBox(
-          width: space,
-        ),
-        Container(
-          width: width,
-          height: 42,
-          color: Colors.white.withOpacity(1),
-        ),
-        const SizedBox(
-          width: space,
-        ),
-        Container(
-          width: width,
-          height: 28,
-          color: Colors.white.withOpacity(0.8),
-        ),
-        const SizedBox(
-          width: space,
-        ),
-        Container(
-          width: width,
-          height: 10,
-          color: Colors.white.withOpacity(0.4),
-        ),
-      ],
-    );
-  }
+class SalesData {
+  SalesData(this.year, this.sales);
+  final int year;
+  final double sales;
 }

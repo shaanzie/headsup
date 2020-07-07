@@ -21,7 +21,6 @@ class _PollutionActivityState extends State<PollutionActivity> {
     _getData();
   }
 
-  String _eid;
   String _email;
   double _pollute = 0.0;
   TextEditingController calorieController = new TextEditingController();
@@ -33,13 +32,12 @@ class _PollutionActivityState extends State<PollutionActivity> {
     });
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _email = prefs.get('email');
-    // _eid = prefs.get('eid');
     final http.Response response = await http.post(
-      'http://137.135.89.132:5000/api/v1/pulldata',
+      'http://52.249.198.183:5000/api/v1/pulldata',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8'
       },
-      body: jsonEncode({'type': "person", "employeeID": _eid}),
+      body: jsonEncode({'email': _email}),
     );
     if (response.statusCode == 200) {
       _pollute = double.parse(json.decode(response.body)['polIndex']);
