@@ -71,6 +71,8 @@ flutter:
    - assets/images/fatigue.jpg
    - assets/images/linechart.png
    - assets/images/piechart.jpg
+   - assets/images/lc.png
+   - assets/images/abg.png
    - assets/reward.png
    - assets/phone.png
 

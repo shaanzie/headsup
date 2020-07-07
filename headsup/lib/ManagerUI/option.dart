@@ -2,30 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:headsup/ManagerUI/line_chart.dart';
 import 'package:headsup/ManagerUI/pie_chart.dart';
 
-class MyApp100 extends StatelessWidget {
+class MyApp100 extends StatefulWidget {
   final String something;
-  // This widget is the root of your application.
   MyApp100({Key key, @required this.something}) : super(key: key);
 
   @override
-  MyHomePage1 createState() => MyHomePage1(something);
+  _MyApp100State createState() => _MyApp100State(something);
 }
 
-class MyHomePage1 extends StatefulWidget {
-  final String something;
-
-  MyHomePage1(something);
-
-  @override
-  _MyHomePage1State createState() => _MyHomePage1State(something);
-}
-
-class _MyHomePage1State extends State<MyHomePage1> {
+class _MyApp100State extends State<MyApp100> {
   String something;
-  _MyHomePage1State(something);
+  _MyApp100State(this.something);
 
-  Widget _buildCard(String assetUrl, String title, int index) {
-    print(something);
+  Widget _buildCard(String assetUrl, String title, int index, String title2) {
+    print(title2);
     final double deviceHeight = MediaQuery.of(context).size.height;
     return SizedBox(
       width: deviceHeight * 0.45,
@@ -38,14 +28,14 @@ class _MyHomePage1State extends State<MyHomePage1> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => PieChartSample1(
-                            something: something,
+                            something: title2,
                           )));
             } else if (index == 2) {
               Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => LineChartSample1(
-                      something: something,
+                      something: title2,
                       type: 'Fatigue',
                     ),
                   ));
@@ -96,13 +86,13 @@ class _MyHomePage1State extends State<MyHomePage1> {
             SizedBox(
               height: 25,
             ),
-            _buildCard('assets/images/abg.jpg',
-                'Distribution of waves (Pie Charts)', 1),
+            _buildCard('assets/images/abg.png',
+                'Distribution of waves (Pie Charts)', 1, something),
             SizedBox(
               height: 25,
             ),
-            _buildCard(
-                'assets/images/lc.png', 'Worker Fatigue Distribution', 2),
+            _buildCard('assets/images/lc.png', 'Worker Fatigue Distribution', 2,
+                something),
             /*SizedBox(
               height: 25,
             ),

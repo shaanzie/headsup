@@ -69,11 +69,12 @@ class _PieChartSample1State extends State<PieChartSample1> {
 
   @override
   Widget build(BuildContext context) {
-    final List<ChartData> chartData = [
-      ChartData('Alpha', _restMap[0]),
-      ChartData('Beta', _restMap[1]),
-      ChartData('Gamma', _restMap[2]),
-    ];
+    final List<ChartData> chartData = [];
+    if (_isLoading == false) {
+      chartData.add(ChartData('Alpha', _restMap[0], 'Alpha'));
+      chartData.add(ChartData('Beta', _restMap[1], 'Beta'));
+      chartData.add(ChartData('Gamma', _restMap[2], 'Gamma'));
+    }
     return Scaffold(
         appBar: AppBar(
           title: Text("Wave distribution"),
@@ -84,17 +85,19 @@ class _PieChartSample1State extends State<PieChartSample1> {
           // Render pie chart
           PieSeries<ChartData, String>(
               dataSource: chartData,
-              pointColorMapper: (ChartData data, _) => data.color,
+              //pointColorMapper: (ChartData data, _) => data.color,
               xValueMapper: (ChartData data, _) => data.x,
               yValueMapper: (ChartData data, _) => data.y,
-              dataLabelMapper: (ChartData data, _) => data.x)
+              dataLabelMapper: (ChartData data, _) => data.text,
+              dataLabelSettings: DataLabelSettings(isVisible: true))
         ]))));
   }
 }
 
 class ChartData {
-  ChartData(this.x, this.y, [this.color]);
+  ChartData(this.x, this.y, this.text);
   final String x;
   final double y;
-  final Color color;
+  final String text;
+  //final Color color;
 }
