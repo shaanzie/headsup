@@ -21,7 +21,7 @@ class _PollutionActivityState extends State<PollutionActivity> {
     _getData();
   }
 
-  String _email;
+  String _eid;
   double _pollute = 0.0;
   TextEditingController calorieController = new TextEditingController();
   bool _isLoading = false;
@@ -31,16 +31,16 @@ class _PollutionActivityState extends State<PollutionActivity> {
       _isLoading = true;
     });
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _email = prefs.get('email');
+    _eid = prefs.get('eid');
     final http.Response response = await http.post(
-      'http://52.249.198.183:5000/api/v1/pulldata',
+      'http://137.135.89.132:5000/api/v1/pollution',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8'
       },
-      body: jsonEncode({'email': _email}),
+      body: jsonEncode({'employeeID': _eid}),
     );
-    if (response.statusCode == 200) {
-      _pollute = double.parse(json.decode(response.body)['polIndex']);
+    if (response.statusCode == 201) {
+      _pollute = double.parse(json.decode(response.body)['data']);
     } else {
       throw Exception("User not found!");
     }
@@ -61,10 +61,13 @@ class _PollutionActivityState extends State<PollutionActivity> {
               )
             : Column(
                 children: <Widget>[
+                  SizedBox(
+                    height: 200,
+                  ),
                   Center(
                     child: SfRadialGauge(
                         enableLoadingAnimation: true,
-                        animationDuration: 4500,
+                        animationDuration: 2000,
                         axes: <RadialAxis>[
                           RadialAxis(
                               minimum: 0,
@@ -72,19 +75,19 @@ class _PollutionActivityState extends State<PollutionActivity> {
                               ranges: <GaugeRange>[
                                 GaugeRange(
                                     startValue: 0,
-                                    endValue: 1000,
+                                    endValue: 30,
                                     color: Colors.green,
                                     startWidth: 10,
                                     endWidth: 10),
                                 GaugeRange(
-                                    startValue: 1000,
-                                    endValue: 2000,
+                                    startValue: 30,
+                                    endValue: 60,
                                     color: Colors.orange,
                                     startWidth: 10,
                                     endWidth: 10),
                                 GaugeRange(
-                                    startValue: 2000,
-                                    endValue: 3000,
+                                    startValue: 60,
+                                    endValue: 150,
                                     color: Colors.red,
                                     startWidth: 10,
                                     endWidth: 10)
@@ -97,7 +100,7 @@ class _PollutionActivityState extends State<PollutionActivity> {
                               annotations: <GaugeAnnotation>[
                                 GaugeAnnotation(
                                     widget: Container(
-                                        child: Text("$_pollute% Toxicity",
+                                        child: Text("$_pollute ppm Toxicity",
                                             style: TextStyle(
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.bold))),
