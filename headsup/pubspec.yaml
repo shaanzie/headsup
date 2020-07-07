@@ -43,6 +43,8 @@ dependencies:
   vibrate: ^0.0.4
   flutter_local_notifications: ^1.4.2
   rxdart: ^0.23.1
+  eventsource: ^0.2.3
+  html: ^0.14.0+3
   
 dev_dependencies:
   flutter_test:
