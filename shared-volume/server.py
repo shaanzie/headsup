@@ -27,7 +27,8 @@ def signup():
         'name': data['name'],
         'email': data['email'],
 	'password': data['password'],
-	'role': data['role']
+	'role': data['role'],
+    'employeeID': data['employeeID']
     }
     db.employees.insert_one(item_doc)
     return {"message":"Success!"}, 201
@@ -38,7 +39,7 @@ def login():
     if db.employees.count_documents({'email': data['email'], 'password': data['password']}):
         key = uuid.uuid4().hex
         items = db.employees.find_one({'email': data['email'], 'password': data['password']})
-        return {"message":"Logged In!", "key":key, "role": items['role']}, 201
+        return {"message":"Logged In!", "key":key, "role": items['role'], "employeeID": items['employeeID']}, 201
     else:
         return {"message":"Wrong username or password!"}, 403
 
@@ -60,6 +61,7 @@ def pushdata():
 @app.route('/api/v1/pulldata', methods=['POST'])
 def pulldata():
     data = request.get_json()
+    ord_arr=[]
     sumdur_item = 0
     sumact_item = 0
     sumasl_item = 0
@@ -70,26 +72,30 @@ def pulldata():
         #items = [item for item in _items]
         for item in _items:
             print(item, file=sys.stderr)
+            sum_list[item['employeeID']] = []
             _peritems = db.productivity.find({'employeeID': item['employeeID']})
             for peritem in _peritems:
-                sumdur_item += int(peritem['duration'])
-                sumact_item += int(peritem['active'])
-                sumasl_item += int(peritem['asleep'])
-                sumcount_item += int(peritem['stepcount'])
-            sum_list[item['employeeID']] = {'tot_step':sumcount_item,'tot_act':sumact_item, 'tot_asl': sumasl_item, 'tot_duration': sumdur_item}
-        return {'message':'success', 'data':sum_list}, 201
+                sumdur_item += float(peritem['duration'])
+                sumact_item += float(peritem['active'])
+                sumasl_item += float(peritem['asleep'])
+                sumcount_item += float(peritem['stepcount'])
+            sum_list[item['employeeID']].append(sumcount_item + sumact_item/60*sumdur_item)
+            sum_list = {k: v for k, v in sorted(sum_list.items(), key=lambda item: item[1])}
+            ord_arr=[item for item in sum_list.keys()]
+            ord_arr.reverse()
+        return {'message':'success','sorted':ord_arr}, 201
 
     elif data['type'] == "person":
-        sum_list = dict()
+        sum_list = []
         _items = db.productivity.find({'employeeID': data['employeeID']})
         #items = [item for item in _items]
         for item in _items:
-            sumdur_item += int(item['duration'])
-            sumact_item += int(item['active'])
-            sumasl_item += int(item['asleep'])
-            sumcount_item += int(item['stepcount'])
+            sumdur_item = float(item['duration'])
+            sumact_item = float(item['active'])
+            sumasl_item = float(item['asleep'])
+            sumcount_item = float(item['stepcount'])
             print(item, file=sys.stderr)
-        sum_list[data['employeeID']] = {'tot_step':sumcount_item,'tot_act':sumact_item, 'tot_asl': sumasl_item, 'tot_duration': sumdur_item}
+            sum_list.append(sumcount_item + sumact_item/60*sumdur_item) #{'stepcount':sumcount_item,'active':sumact_item, 'asleep': sumasl_item, 'employeeID': data['employeeID']}
         return {'message':'success', 'data':sum_list}, 201
     return 201
 

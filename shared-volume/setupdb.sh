@@ -11,4 +11,4 @@ curl -d '{"timestamp":"12356","stepcount":"200","duration":"1","employeeID":"123
 
 #pull examples
 curl -d '{"type":"person","employeeID":"1234"}' -H "Content-Type: application/json" -X POST http://localhost:5000/api/v1/pulldata
-curl -d '{"type":"collective"} -H "Content-Type: application/json" -X POST http://localhost:5000/api/v1/pulldata
+curl -d '{"type":"collective"}' -H "Content-Type: application/json" -X POST http://localhost:5000/api/v1/pulldata
