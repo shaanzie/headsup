@@ -17,10 +17,7 @@ class CalorieActivity extends StatefulWidget {
 class _CalorieActivityState extends State<CalorieActivity> {
   bool _isLoading = false;
   String _eid;
-  String _email;
   var _collect;
-  var _steps;
-  var _temp;
   @override
   void initState() {
     super.initState();
@@ -32,10 +29,9 @@ class _CalorieActivityState extends State<CalorieActivity> {
       _isLoading = true;
     });
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _email = prefs.get('email');
     _eid = prefs.get('eid');
     final http.Response response = await http.post(
-      'http://137.135.89.132:5000/api/v1/pulldata',
+      'http://137.135.89.132:5000/api/v1/stepcount',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8'
       },
@@ -51,7 +47,7 @@ class _CalorieActivityState extends State<CalorieActivity> {
     });
   }
 
-  double _calories = 85.0;
+  double _calories = 0.0;
   TextEditingController calorieController = new TextEditingController();
 
   @override
@@ -67,95 +63,103 @@ class _CalorieActivityState extends State<CalorieActivity> {
             : Column(
                 children: <Widget>[
                   Center(
-                    child: SfRadialGauge(
-                        enableLoadingAnimation: true,
-                        animationDuration: 4500,
-                        axes: <RadialAxis>[
-                          RadialAxis(
-                              minimum: 0,
-                              maximum: 3000,
-                              ranges: <GaugeRange>[
-                                GaugeRange(
-                                    startValue: 0,
-                                    endValue: 1000,
-                                    color: Colors.green,
-                                    startWidth: 10,
-                                    endWidth: 10),
-                                GaugeRange(
-                                    startValue: 1000,
-                                    endValue: 2000,
-                                    color: Colors.orange,
-                                    startWidth: 10,
-                                    endWidth: 10),
-                                GaugeRange(
-                                    startValue: 2000,
-                                    endValue: 3000,
-                                    color: Colors.red,
-                                    startWidth: 10,
-                                    endWidth: 10)
-                              ],
-                              pointers: <GaugePointer>[
-                                NeedlePointer(
-                                  value: _calories,
-                                )
-                              ],
-                              annotations: <GaugeAnnotation>[
-                                GaugeAnnotation(
-                                    widget: Container(
-                                        child: Text(
-                                            "$_calories calories out of 3000",
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold))),
-                                    angle: 90,
-                                    positionFactor: 0.5)
-                              ])
-                        ]),
+                    child: SizedBox(
+                      height: 250,
+                      child: SfRadialGauge(
+                          enableLoadingAnimation: true,
+                          animationDuration: 2000,
+                          axes: <RadialAxis>[
+                            RadialAxis(
+                                minimum: 0,
+                                maximum: 3000,
+                                ranges: <GaugeRange>[
+                                  GaugeRange(
+                                      startValue: 0,
+                                      endValue: 1000,
+                                      color: Colors.green,
+                                      startWidth: 10,
+                                      endWidth: 10),
+                                  GaugeRange(
+                                      startValue: 1000,
+                                      endValue: 2000,
+                                      color: Colors.orange,
+                                      startWidth: 10,
+                                      endWidth: 10),
+                                  GaugeRange(
+                                      startValue: 2000,
+                                      endValue: 3000,
+                                      color: Colors.red,
+                                      startWidth: 10,
+                                      endWidth: 10)
+                                ],
+                                pointers: <GaugePointer>[
+                                  NeedlePointer(
+                                    value: _calories,
+                                  )
+                                ],
+                                annotations: <GaugeAnnotation>[
+                                  GaugeAnnotation(
+                                      widget: Container(
+                                          child: Text(
+                                              "$_calories calories consumed",
+                                              style: TextStyle(
+                                                  fontSize: 10,
+                                                  fontWeight:
+                                                      FontWeight.bold))),
+                                      angle: 90,
+                                      positionFactor: 0.5)
+                                ])
+                          ]),
+                    ),
                   ),
                   Center(
-                    child: SfRadialGauge(
-                        enableLoadingAnimation: true,
-                        animationDuration: 4500,
-                        axes: <RadialAxis>[
-                          RadialAxis(
-                              minimum: 0,
-                              maximum: 20000,
-                              ranges: <GaugeRange>[
-                                GaugeRange(
-                                    startValue: 0,
-                                    endValue: 5000,
-                                    color: Colors.green,
-                                    startWidth: 10,
-                                    endWidth: 10),
-                                GaugeRange(
-                                    startValue: 5000,
-                                    endValue: 10000,
-                                    color: Colors.orange,
-                                    startWidth: 10,
-                                    endWidth: 10),
-                                GaugeRange(
-                                    startValue: 10000,
-                                    endValue: 20000,
-                                    color: Colors.red,
-                                    startWidth: 10,
-                                    endWidth: 10)
-                              ],
-                              pointers: <GaugePointer>[
-                                NeedlePointer(
-                                  value: _calories,
-                                )
-                              ],
-                              annotations: <GaugeAnnotation>[
-                                GaugeAnnotation(
-                                    widget: Container(
-                                        child: Text("$_steps today!",
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold))),
-                                    angle: 90,
-                                    positionFactor: 0.5)
-                              ])
-                        ]),
+                    child: SizedBox(
+                      height: 250,
+                      child: SfRadialGauge(
+                          enableLoadingAnimation: true,
+                          animationDuration: 2000,
+                          axes: <RadialAxis>[
+                            RadialAxis(
+                                minimum: 0,
+                                maximum: 30000,
+                                ranges: <GaugeRange>[
+                                  GaugeRange(
+                                      startValue: 0,
+                                      endValue: 10000,
+                                      color: Colors.red,
+                                      startWidth: 10,
+                                      endWidth: 10),
+                                  GaugeRange(
+                                      startValue: 10000,
+                                      endValue: 20000,
+                                      color: Colors.orange,
+                                      startWidth: 10,
+                                      endWidth: 10),
+                                  GaugeRange(
+                                      startValue: 20000,
+                                      endValue: 30000,
+                                      color: Colors.green,
+                                      startWidth: 10,
+                                      endWidth: 10)
+                                ],
+                                pointers: <GaugePointer>[
+                                  NeedlePointer(
+                                    value: double.parse(_collect.toString()),
+                                  )
+                                ],
+                                annotations: <GaugeAnnotation>[
+                                  GaugeAnnotation(
+                                      widget: Container(
+                                          child: Text("$_collect steps today!",
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  fontWeight:
+                                                      FontWeight.bold))),
+                                      angle: 90,
+                                      positionFactor: 0.5)
+                                ])
+                          ]),
+                    ),
                   ),
                   Container(
                       padding: EdgeInsets.all(20),

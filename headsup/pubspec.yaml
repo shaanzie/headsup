@@ -40,6 +40,9 @@ dependencies:
   time_machine: ^0.9.12
   flutter_week_view: ^0.3.1
   google_fonts: ^1.1.0
+  vibrate: ^0.0.4
+  flutter_local_notifications: ^1.4.2
+  rxdart: ^0.23.1
   
 dev_dependencies:
   flutter_test:
