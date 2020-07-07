@@ -1,4 +1,3 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -44,14 +43,13 @@ class _BarChartSample1State extends State<BarChartSample1> {
       _isLoading = true;
     });
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final http.Response response = await http.post(
-      'http://137.135.89.132:5000/api/v1/pulldata',
+    final http.Response response = await http.get(
+      'http://137.135.89.132:5000/api/v1/workercount',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8'
       },
-      body: jsonEncode({'type': "person", "employeeID": something}),
     );
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       print(json.decode(response.body));
       _data = json.decode(response.body);
       print(_data);
@@ -77,21 +75,28 @@ class _BarChartSample1State extends State<BarChartSample1> {
       }
     }
     return Scaffold(
+        appBar: AppBar(
+          title: Text("Worker Count"),
+        ),
         body: Center(
             child: Container(
-                child: SfCartesianChart(series: <ChartSeries>[
-      ColumnSeries<SalesData, int>(
-          dataSource: chartData,
-          xValueMapper: (SalesData sales, _) => sales.year,
-          yValueMapper: (SalesData sales, _) => sales.sales,
-          // Sets the corner radius
-          borderRadius: BorderRadius.all(Radius.circular(15)))
-    ]))));
+                child: SfCartesianChart(
+                    series: <ChartSeries>[
+              ColumnSeries<SalesData, int>(
+                  dataSource: chartData,
+                  xValueMapper: (SalesData sales, _) => sales.year,
+                  yValueMapper: (SalesData sales, _) => sales.sales,
+                  // Sets the corner radius
+                  borderRadius: BorderRadius.all(Radius.circular(15)))
+            ],
+                    primaryXAxis: CategoryAxis(title: AxisTitle(text: "Hours")),
+                    primaryYAxis: CategoryAxis(
+                        title: AxisTitle(text: "Worker Count"))))));
   }
 }
 
 class SalesData {
   SalesData(this.year, this.sales);
   final int year;
-  final double sales;
+  final int sales;
 }
